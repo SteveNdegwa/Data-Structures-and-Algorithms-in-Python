@@ -36,7 +36,6 @@ class LinkedList:
                 return
             currentNode = currentNode.next
 
-
     def pop(self):
         self.head = self.head.next
         self.length = self.length - 1
