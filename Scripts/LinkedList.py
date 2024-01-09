@@ -14,7 +14,7 @@ class LinkedList:
         self.tail = None
         self.length = 0
 
-    def append(self, value):
+    def append(self, value): #O(1)
         newNode = Node(value)
         if(self.length == 0):
             self.head = newNode
@@ -24,7 +24,7 @@ class LinkedList:
             self.tail = newNode
         self.length += 1
 
-    def prepend(self, value):
+    def prepend(self, value):  #O(1)
         newNode = Node(value)
         if(self.length == 0):
             self.head = newNode
@@ -34,7 +34,7 @@ class LinkedList:
             self.head = newNode
         self.length += 1
 
-    def pop(self):
+    def pop(self): #O(n)
         if(self.length > 0):
             currentnode = self.head
             for _ in range(self.length):
@@ -46,14 +46,14 @@ class LinkedList:
                 currentnode = currentnode.next
         return False
 
-    def popFirst(self):
+    def popFirst(self): #O(1)
         if (self.length > 0):
             self.head = self.head.next
             self.length -= 1
             return True
         return False
 
-    def get (self, index):
+    def get (self, index): #O(n)
         if(index >=0 and index in range(self.length)):
             currentNode = self.head
             for x in range(self.length):
@@ -62,12 +62,12 @@ class LinkedList:
                 currentNode = currentNode.next
         return None
 
-    def changeValue(self, index, newValue):
-        node = self.get(index)
+    def changeValue(self, index, newValue):#O(n)
+        node = self.get(index) #O(n)
         if(node != None):
             node.value = newValue
 
-    def reverse(self):
+    def reverse(self): #O(n)
         temp = self.head
         self.head = self.tail
         self.tail = temp
@@ -81,7 +81,7 @@ class LinkedList:
             before = temp
             temp = after
 
-    def print(self):
+    def print(self): #O(n)
         if(self.length > 0):
             currentNode = self.head
             for _ in range(self.length):
@@ -95,5 +95,7 @@ linked_list.append(4)
 linked_list.append(5)
 linked_list.append(6)
 linked_list.prepend(3)
+linked_list.reverse()
+print(linked_list.get(2).value)
 linked_list.print()
 
