@@ -41,18 +41,31 @@ class LinkedList:
         self.head = self.head.next
         self.length = self.length - 1
 
+    def reverse(self):
+        temp = self.head
+        self.head = self.tail
+        self.tail = temp
+
+        before = None
+        after = temp.next
+
+        for _ in range(self.length):
+            after = temp.next
+            temp.next = before
+            before = temp
+            temp = after
+            
     def print(self):
         currentNode = self.head
         for x in range(self.length):
             print(currentNode.value)
             currentNode = currentNode.next
 
+
+
+
 list = LinkedList(4)
 list.append(5)
 list.append(6)
-list.prepend(3)
-
-list.shift()
-
-list.pop()
+list.reverse()
 list.print()

@@ -19,7 +19,7 @@ class DoublyLinkedList:
         self.length += 1
 
     def prepend (self, value):
-        newNode = Node(value);
+        newNode = Node(value)
         newNode.next = self.head
         self.head.previous = newNode
         self.head = newNode
@@ -30,7 +30,15 @@ class DoublyLinkedList:
         self.head.previous = None
         self.length -= 1
 
-    def
+    def shift(self):
+        self.tail = self.tail.previous
+        self.tail.next = None
+        self.length -= 1
+
+    def reverse(self):
+        
+
+
     def print(self):
         currentNode = self.head
         for x in range(self.length):
@@ -42,4 +50,5 @@ list.append(5)
 list.append(6)
 list.prepend(3)
 list.pop()
+list.shift()
 list.print()
