@@ -64,14 +64,16 @@ class DoublyLinkedList:
             node.value = new_value
 
     def remove(self, index):  # O(n)
-        node = self.get(index)
-        previous_node = node.previous
-        next_node = node.next
-        previous_node.next = next_node
-        next_node.previous = previous_node
-        node.next = None
-        node.previous = None
-        self.length -= 1
+        if self.length > 0:
+            node = self.get(index)
+            previous_node = node.previous
+            next_node = node.next
+            previous_node.next = next_node
+            next_node.previous = previous_node
+            node.next = None
+            node.previous = None
+            self.length -= 1
+        return False
 
     def reverse(self):
         temp = self.head
