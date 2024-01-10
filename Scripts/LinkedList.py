@@ -4,7 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 class Node:
-    def __init__(self, value):
+    def __init__(self, value = None):
         self.value = value
         self.next = None
 
