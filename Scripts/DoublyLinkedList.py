@@ -63,6 +63,16 @@ class DoublyLinkedList:
         if node:
             node.value = new_value
 
+    def remove(self, index):  # O(n)
+        node = self.get(index)
+        previous_node = node.previous
+        next_node = node.next
+        previous_node.next = next_node
+        next_node.previous = previous_node
+        node.next = None
+        node.previous = None
+        self.length -= 1
+
     def reverse(self):
         temp = self.head
         self.head = self.tail
@@ -91,5 +101,5 @@ linked_list.append(4)
 linked_list.append(5)
 linked_list.append(6)
 linked_list.prepend(3)
-linked_list.pop_first()
+linked_list.remove(2)
 linked_list.print()

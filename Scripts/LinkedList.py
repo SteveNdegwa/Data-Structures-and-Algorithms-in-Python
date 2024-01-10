@@ -68,6 +68,13 @@ class LinkedList:
         if node:
             node.value = new_value
 
+    def remove(self, index):  # O(n)
+        node = self.get(index)
+        previous_node = self.get(index-1)
+        previous_node.next = node.next
+        node.next = None
+        self.length -= 1
+
     def reverse(self):  # O(n)
         temp = self.head
         self.head = self.tail
