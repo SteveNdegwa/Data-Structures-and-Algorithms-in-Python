@@ -4,7 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 class Node:
-    def __init__(self, value = None):
+    def __init__(self, value=None):
         self.value = value
         self.next = None
 
@@ -36,16 +36,23 @@ class LinkedList:
         self.length += 1
 
     def pop(self):  # O(n)
-        if self.length > 0:
-            current_node = self.head
-            for _ in range(self.length):
-                if current_node.next == self.tail:
-                    current_node.next = None
-                    self.tail = current_node
-                    self.length -= 1
-                    return True
-                current_node = current_node.next
-        return False
+        if self.length == 0:
+            return None
+        temp = self.head
+        prev = self.head
+
+        while temp.next:
+            prev = temp
+            temp = temp.next
+
+        self.tail = prev
+        self.tail.next = None
+        self.length -= 1
+
+        if self.length == 0:
+            self.head = None
+            self.tail = None
+        return temp.value
 
     def pop_first(self):  # O(1)
         if self.length > 0:
@@ -101,11 +108,6 @@ class LinkedList:
 
 
 linked_list = LinkedList()
-linked_list.append(4)
-linked_list.append(5)
-linked_list.append(6)
-linked_list.prepend(3)
-linked_list.reverse()
-print(linked_list.get(2).value)
+linked_list.append(1)
+linked_list.pop()
 linked_list.print()
-
