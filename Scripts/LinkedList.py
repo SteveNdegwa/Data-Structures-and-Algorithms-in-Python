@@ -4,7 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 class Node:
-    def __init__(self, value = None):
+    def __init__(self, value=None):
         self.value = value
         self.next = None
 
@@ -36,21 +36,31 @@ class LinkedList:
         self.length += 1
 
     def pop(self):  # O(n)
-        if self.length > 0:
-            current_node = self.head
-            for _ in range(self.length):
-                if current_node.next == self.tail:
-                    current_node.next = None
-                    self.tail = current_node
-                    self.length -= 1
-                    return True
-                current_node = current_node.next
-        return False
+        if self.length == 0:
+            return None
+        temp = self.head
+        prev = self.head
+
+        while temp.next:
+            prev = temp
+            temp = temp.next
+
+        self.tail = prev
+        self.tail.next = None
+        self.length -= 1
+
+        if self.length == 0:
+            self.head = None
+            self.tail = None
+        return temp.value
 
     def pop_first(self):  # O(1)
         if self.length > 0:
             self.head = self.head.next
             self.length -= 1
+            if self.length == 0:
+                self.head = None
+                self.tail = None
             return True
         return False
 
@@ -62,6 +72,31 @@ class LinkedList:
                     return current_node
                 current_node = current_node.next
         return False
+
+    def create_word(self):
+        if self.length == 0:
+            return
+        if self.length == 1:
+            return self.head.value
+
+        current_node = self.head
+        word = ""
+        while current_node:
+            word += current_node.value
+            current_node = current_node.next
+
+        return word
+
+    def get_permutations(self, word):
+        if len(word) == 1:
+            return [word]
+        perms = self.get_permutations(word[1:])
+        char = word[0]
+        result = []
+        for perm in perms:
+            for i in range(len(perm) + 1):
+                result.append(perm[:i] + char + perm[i:])
+        return result
 
     def change_value(self, index, new_value):  # O(n)
         node = self.get(index)  # O(n)
@@ -101,11 +136,10 @@ class LinkedList:
 
 
 linked_list = LinkedList()
-linked_list.append(4)
-linked_list.append(5)
-linked_list.append(6)
-linked_list.prepend(3)
-linked_list.reverse()
-print(linked_list.get(2).value)
-linked_list.print()
-
+linked_list.append("c")
+linked_list.append("a")
+linked_list.append("l")
+linked_list.append("e")
+linked_list.append("b")
+word = linked_list.create_word()
+print(linked_list.get_permutations(word))
