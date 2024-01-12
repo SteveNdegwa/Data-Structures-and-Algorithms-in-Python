@@ -73,7 +73,7 @@ class LinkedList:
                 current_node = current_node.next
         return False
 
-    def possible_get_permutations(self):
+    def create_word(self):
         if self.length == 0:
             return
         if self.length == 1:
@@ -85,20 +85,18 @@ class LinkedList:
             word += current_node.value
             current_node = current_node.next
 
-        print(word)
-        
-        def get_permutations(word):
-            if len(word) == 1:
-                return [word]
-            perms = get_permutations(word[1:])
-            char = word[0]
-            result = []
-            for perm in perms:
-                for i in range(len(perm) + 1):
-                    result.append(perm[:i] + char + perm[i:])
-            return result
+        return word
 
-        return get_permutations(word)
+    def get_permutations(self, word):
+        if len(word) == 1:
+            return [word]
+        perms = self.get_permutations(word[1:])
+        char = word[0]
+        result = []
+        for perm in perms:
+            for i in range(len(perm) + 1):
+                result.append(perm[:i] + char + perm[i:])
+        return result
 
     def change_value(self, index, new_value):  # O(n)
         node = self.get(index)  # O(n)
@@ -143,6 +141,5 @@ linked_list.append("a")
 linked_list.append("l")
 linked_list.append("e")
 linked_list.append("b")
-linked_list.possible_get_permutations()
-linked_list.print()
-print(linked_list.possible_get_permutations())
+word = linked_list.create_word()
+print(linked_list.get_permutations(word))
