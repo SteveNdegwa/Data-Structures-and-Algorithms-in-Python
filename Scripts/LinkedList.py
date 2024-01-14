@@ -93,6 +93,7 @@ class LinkedList:
         perms = self.get_permutations(word[1:])
         char = word[0]
         result = []
+
         for perm in perms:
             for i in range(len(perm) + 1):
                 result.append(perm[:i] + char + perm[i:])
