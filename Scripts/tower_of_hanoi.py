@@ -42,16 +42,15 @@ class Rod:
                 current_node = current_node.next
 
 
-A = Rod("A")
-B = Rod("B")
-C = Rod("C")
-
-
 def move_disks(source, destination):
     value = source.pop_first()
     destination.prepend(value)
     print("Disk " + value + " moved from rod " + source.name + " to rod " + destination.name)
 
+
+A = Rod("A")
+B = Rod("B")
+C = Rod("C")
 
 move_disks(A, C)
 move_disks(A, B)
