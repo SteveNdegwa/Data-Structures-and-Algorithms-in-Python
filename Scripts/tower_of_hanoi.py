@@ -5,17 +5,12 @@ class Node:
 
 
 class Rod:
-    def __init__(self, name):
+    def __init__(self):
         self.head = None
         self.tail = None
-        self.name = name
         self.length = 0
-        if name == "A":
-            self.prepend("3")
-            self.prepend("2")
-            self.prepend("1")
 
-    def prepend(self, value):
+    def push(self, value):
         new_node = Node(value)
         if self.length == 0:
             self.head = new_node
@@ -25,9 +20,9 @@ class Rod:
             self.head = new_node
         self.length += 1
 
-    def pop_first(self):
+    def pop(self):
         if self.length == 0:
-            return False
+            return
         removed_node = self.head
         self.head = self.head.next
         self.length -= 1
@@ -42,25 +37,64 @@ class Rod:
                 current_node = current_node.next
 
 
-A = Rod("A")
-B = Rod("B")
-C = Rod("C")
+def move_disks_between_two_poles(src, dest, s, d):
+    pole1_top_disk = src.pop()
+    pole2_top_disk = dest.pop()
+
+    # When pole 1 is empty
+    if pole1_top_disk is None:
+        src.push(pole2_top_disk)
+        print(f"Move the disk '{str(pole2_top_disk)}' from '{s}' to '{d}'")
+        return
+
+    # When pole2 pole is empty
+    elif pole2_top_disk is None:
+        dest.push(pole1_top_disk)
+        print(f"Move the disk '{str(pole1_top_disk)}' from '{s}' to '{d}'")
+        return
+
+    # When top disk of pole1 > top disk of pole2
+    elif pole1_top_disk > pole2_top_disk:
+        src.push(pole1_top_disk)
+        print(f"Move the disk '{str(pole1_top_disk)}' from '{s}' to '{d}'")
+        return
+
+    # When top disk of pole1 < top disk of pole2
+    else:
+        dest.push(pole2_top_disk)
+        print(f"Move the disk '{str(pole2_top_disk)}' from '{s}' to '{d}'")
 
 
-def move_disks(source, destination):
-    value = source.pop_first()
-    destination.prepend(value)
-    print("Disk " + value + " moved from rod " + source.name + " to rod " + destination.name)
+i = 1
 
 
-move_disks(A, C)
-move_disks(A, B)
-move_disks(C, B)
-move_disks(A, C)
-move_disks(B, A)
-move_disks(B, C)
-move_disks(A, C)
+def to_iterative(num_of_disks, src, aux, dest):
+    total_num_of_moves = pow(2, num_of_disks) - 1
 
+    # If number of disks is even, then interchange
+    # destination pole and auxiliary pole
+    if num_of_disks % 2 == 0:
+        aux, dest = dest, aux
+
+    for j in range(num_of_disks, 0, -1):
+        src.push(j)
+
+    if i in range(1, total_num_of_moves + 1):
+        if i % 3 == 1:
+            move_disks_between_two_poles(src, dest, 'S', 'D')
+        elif i % 3 == 2:
+            move_disks_between_two_poles(src, aux, 'S', 'A')
+        else:
+            move_disks_between_two_poles(aux, dest, 'A', 'D')
+    i += 1
+
+
+S = Rod()
+A = Rod()
+D = Rod()
+
+to_iterative(3, S, A, D)
+to_iterative(3, S, A, D)
 
 
 
