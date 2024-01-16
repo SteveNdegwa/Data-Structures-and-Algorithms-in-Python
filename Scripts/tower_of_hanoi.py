@@ -5,11 +5,10 @@ class Node:
 
 
 class Rod:
-    def __init__(self, moves = 0):
+    def __init__(self):
         self.top = None
         self.bottom = None
         self.length = 0
-        self.moves = moves
 
     def push(self, value):
         new_node = Node(value)
@@ -68,32 +67,51 @@ def move_disks_between_two_poles(src, dest, s, d):
         print(f"Move the disk '{str(pole1_top_disk)}' from '{s}' to '{d}'")
 
 
-def to_iterative(num_of_disks, src, aux, dest):
+def initialize(num_of_disks, src, aux, dest):
     total_num_of_moves = pow(2, num_of_disks) - 1
 
     # If number of disks is even, then interchange
     # destination pole and auxiliary pole
-    if num_of_disks % 2 == 0:
-        aux, dest = dest, aux
+
+    # if num_of_disks % 2 == 0:
+    #     aux, dest = dest, aux
 
     for j in range(num_of_disks, 0, -1):
         src.push(j)
 
-    for i in range(1, total_num_of_moves + 1):
+    return total_num_of_moves
+
+
+def iterate(i, total_no_of_moves, src, aux, dest):
+    if i in range(1, total_no_of_moves + 1):
         if i % 3 == 1:
             move_disks_between_two_poles(src, dest, 'S', 'D')
         elif i % 3 == 2:
             move_disks_between_two_poles(src, aux, 'S', 'A')
         else:
             move_disks_between_two_poles(aux, dest, 'A', 'D')
+        i += 1
 
 
 S = Rod()
 A = Rod()
 D = Rod()
 
-to_iterative(3, S, A, D)
+total_no_of_moves = initialize(4, S, A, D)
 
 
+# run the nth move
+def run_move(n):
+    return iterate(n, total_no_of_moves, S, A, D)
 
 
+# run n moves
+def run(n):
+    for i in range(1, n + 1):
+        iterate(i, total_no_of_moves, S, A, D)
+
+
+run_move(1)
+run_move(2)
+run_move(3)
+run_move(4)
