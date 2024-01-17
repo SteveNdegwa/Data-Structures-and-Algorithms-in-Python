@@ -111,7 +111,4 @@ def run(n):
         iterate(i, total_no_of_moves, S, A, D)
 
 
-run_move(1)
-run_move(2)
-run_move(3)
-run_move(4)
+run(total_no_of_moves)
