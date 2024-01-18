@@ -1,5 +1,4 @@
 import pdfplumber
-import csv
 import re
 from write_csv_file import write_csv
 
