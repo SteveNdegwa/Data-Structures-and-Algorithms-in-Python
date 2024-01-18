@@ -10,7 +10,7 @@ debits = []
 balance = []
 
 line_re = re.compile(r'^\d{2}-\d{2}-\d{4}')
-with pdfplumber.open("MILCA WAITHERA WACHIRA.pdf") as pdf:
+with pdfplumber.open("pdfs/_jan 2023 oct 2023 STATEMENT BENEDICT MALOMBA (1).pdf") as pdf:
     for page in pdf.pages:
         text_list = page.extract_text().split("\n")
         for x in range(len(text_list)):
@@ -35,7 +35,7 @@ print(credits)
 print(balance)
 print(description)
 
-with open('employee_file.csv', mode='w') as statement_data:
+with open('pdfs/employee_file.csv', mode='w') as statement_data:
     statement_writer = csv.writer(statement_data, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     statement_writer.writerow(['Transaction Date', 'Value Date', 'Description', 'Debits', 'Credits', 'Balance'])
     for x in range(len(transaction_date)):
