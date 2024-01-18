@@ -1,2 +1,4 @@
 venv
 .idea
+Scripts/pdfs
+Scripts/csvs
