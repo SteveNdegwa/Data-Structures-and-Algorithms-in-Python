@@ -132,19 +132,37 @@ class BST(object):
             if current_node.right:
                 queue.append(current_node.right)
 
+    def join_bst(self, root):
+        if not root:
+            return
+        self.join_bst(root.left)
+        self.insert(root.value)
+        self.join_bst(root.right)
+
 
 bst = BST()
+bst.insert(16)
 bst.insert(10)
 bst.insert(6)
-bst.insert(2)
 bst.insert(12)
-bst.insert(8)
-bst.insert(13)
-bst.insert(11)
+bst.insert(24)
+bst.insert(20)
+bst.insert(28)
+bst2 = BST()
+bst2.insert(25)
+bst2.insert(13)
+bst2.insert(8)
+bst2.insert(19)
+bst2.insert(29)
+bst2.insert(26)
+bst2.insert(32)
+print("BST 1")
 bst.preorder(bst.root)
-print("after removal")
-bst.delete(10)
+print("BST 2")
 bst.preorder(bst.root)
+bst.join_bst(bst2.root)
+print("BST 1 after joining")
+bst.levelorder()
 # print(bst.search(bst.root, 2))
 # print(bst.min(bst.root))
 # root = bst.search(bst.root, 6)
