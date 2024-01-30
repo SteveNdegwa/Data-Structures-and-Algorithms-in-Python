@@ -80,7 +80,7 @@ class RedBlack(object):
             new_root.left.parent = unbalanced
 
         new_root.parent = unbalanced.parent
-        if unbalanced.parent == None:
+        if not unbalanced.parent:
             self.root = new_root
         elif unbalanced == unbalanced.parent.left:
             unbalanced.parent.left = new_root
@@ -97,7 +97,7 @@ class RedBlack(object):
             new_root.right.parent = unbalanced
 
         new_root.parent = unbalanced.parent
-        if unbalanced.parent == None:
+        if not unbalanced.parent:
             self.root = new_root
         elif unbalanced == unbalanced.parent.right:
             unbalanced.parent.right = new_root
