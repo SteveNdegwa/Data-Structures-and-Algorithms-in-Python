@@ -9,8 +9,8 @@ class Node(object):
 
 class RedBlack(object):
     def __init__(self):
-        self.nil = Node(0)
-        self.nil.red = False
+        self.nil = Node(None)
+        self.red = False
         self.root = self.nil
 
     def insert(self, value):
@@ -22,71 +22,77 @@ class RedBlack(object):
         current = self.root
         while current != self.nil:
             parent = current
-            if value < current.value:
-                current = current.left
-            elif value > current.value:
+            if value > current.value:
                 current = current.right
+            elif value < current.value:
+                current = current.left
             else:
-                break
+                return
 
         new_node.parent = parent
 
         if not parent:
+            new_node.red = False
             self.root = new_node
-        elif value < parent.value:
-            parent.left = new_node
-        else:
+        elif value > parent.value:
             parent.right = new_node
+        else:
+            parent.left = new_node
 
         self.fix_insert(new_node)
 
     def fix_insert(self, new_node):
         while new_node != self.root and new_node.parent.red:
-            if new_node.parent == new_node.parent.parent.right:
-                u = new_node.parent.parent.left  # uncle
-                if u.red:
-                    u.red = False
-                    new_node.parent.red = False
-                    new_node.parent.parent.red = True
-                    new_node = new_node.parent.parent
-                else:
-                    if new_node == new_node.parent.left:
-                        new_node = new_node.parent
-                        self.rotate_right(new_node)
-                    new_node.parent.red = False
-                    new_node.parent.parent.red = True
-                    self.rotate_left(new_node.parent.parent)
+            # get the uncle of the new node
+            if new_node.parent.parent.left == new_node.parent:
+                uncle = new_node.parent.parent.right
             else:
-                u = new_node.parent.parent.right  # uncle
+                uncle = new_node.parent.parent.left
 
-                if u.red:
-                    u.red = False
-                    new_node.parent.red = False
+            # check if uncle is red
+            if uncle.red:
+                uncle.red = False
+                new_node.parent.red = False
+                if new_node.parent.parent != self.root:
                     new_node.parent.parent.red = True
-                    new_node = new_node.parent.parent
-                else:
-                    if new_node == new_node.parent.right:
+                    new_node = new_node.parent
+
+            # if uncle is black or nil
+            else:
+                # if parent is on left of grandparent
+                if new_node.parent.parent.left == new_node.parent:
+                    # left-right
+                    if new_node.parent.right == new_node:
                         new_node = new_node.parent
                         self.rotate_left(new_node)
                     new_node.parent.red = False
                     new_node.parent.parent.red = True
                     self.rotate_right(new_node.parent.parent)
-        self.root.red = False
+
+                # if parent is on right of grandparent
+                else:
+                    # right-left
+                    if new_node.parent.left == new_node:
+                        new_node = new_node.parent
+                        self.rotate_right(new_node)
+                    new_node.parent.red = False
+                    new_node.parent.parent.red = True
+                    self.rotate_left(new_node.parent.parent)
 
     def rotate_left(self, unbalanced):
         new_root = unbalanced.right
         new_root.parent = unbalanced.parent
 
+        if not new_root.parent:
+            self.root = new_root
+        elif new_root.value < new_root.parent.value:
+            new_root.parent.left = new_root
+        else:
+            new_root.parent.right = new_root
+
         unbalanced.right = new_root.left
         if new_root.left != self.nil:
-            new_root.left.parent = unbalanced
-
-        if not unbalanced.parent:
-            self.root = new_root
-        elif unbalanced == unbalanced.parent.left:
-            unbalanced.parent.left = new_root
-        else:
-            unbalanced.parent.right = new_root
+            unbalanced.right.parent = unbalanced
 
         new_root.left = unbalanced
         unbalanced.parent = new_root
@@ -95,16 +101,16 @@ class RedBlack(object):
         new_root = unbalanced.left
         new_root.parent = unbalanced.parent
 
+        if not new_root.parent:
+            self.root = new_root
+        elif new_root.value < new_root.parent.value:
+            new_root.parent.left = new_root
+        else:
+            new_root.parent.right = new_root
+
         unbalanced.left = new_root.right
         if new_root.right != self.nil:
-            new_root.right.parent = unbalanced
-
-        if not unbalanced.parent:
-            self.root = new_root
-        elif unbalanced == unbalanced.parent.right:
-            unbalanced.parent.right = new_root
-        else:
-            unbalanced.parent.left = new_root
+            unbalanced.left.parent = unbalanced
 
         new_root.right = unbalanced
         unbalanced.parent = new_root
@@ -131,3 +137,5 @@ tree.insert(2)
 tree.insert(1)
 tree.insert(70)
 tree.preorder(tree.root)
+
+
