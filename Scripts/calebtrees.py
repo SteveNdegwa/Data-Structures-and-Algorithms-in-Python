@@ -1,13 +1,15 @@
 class Node:
-    def __init__(self ,value):
+    def __init__(self, value):
         self.value = value
         self.left = None
-        self. right = None
+        self.right = None
+
+
 class BinarySearchTree:
     def __init__(self):
         self.root = None
 
-    def insert(self,value):
+    def insert(self, value):
         new_node = Node(value)
         if self.root is None:
             self.root = new_node
@@ -16,7 +18,7 @@ class BinarySearchTree:
         while True:
 
             if new_node.value == temp.value:
-                 return False
+                return False
 
             if new_node.value < temp.value:
                 if temp.left == None:
@@ -28,18 +30,20 @@ class BinarySearchTree:
                     temp.right = new_node
                     return True
                 temp = temp.right
-    def contains(self,value):
+
+    def contains(self, value):
         if self.root is None:
             return False
         temp = self.root
         while temp is not None:
-                if value < temp.value:
-                    temp = temp.left
-                elif value > temp.value:
-                    temp = temp.right
-                else:
-                    return  True
+            if value < temp.value:
+                temp = temp.left
+            elif value > temp.value:
+                temp = temp.right
+            else:
+                return True
         return False
+
     def bfs(self):
         current_node = self.root
         queue = []
@@ -56,54 +60,42 @@ class BinarySearchTree:
 
     def dfs_pre_order(self):
         results = []
-        def tranferse (current_node)
-            results.append(current_node)
 
+        def traverse(current_node):
+            results.append(current_node.value)
+            if current_node.left is not None:
+                traverse(current_node.left)
+            if current_node.right is not None:
+                traverse(current_node.right)
 
+        traverse(self.root)
+        return results
 
-    # def delete(self, value):
-    #     if self.root is None:
-    #         print('tree is empty')
-    #         return
-    #     temp = self.root
-    #     i`f value < temp.value:
-    #         if temp.left:
-    #             temp.left = temp.left.del(value)
-    #         else:
-    #             print("Given node not found")
-    #     elif value > temp.value:
-    #         if temp.right:
-    #             temp.right = temp.right.delete(value)
-    #         else:
-    #             print("Given node not found")
-    #     else:
-    #         if temp.left is None:
-    #             temp = temp.right
-    #             self.root = None
-    #             return temp
-    #
-    #         else:
-    #             if temp.right is None:
-    #                 temp = temp.left
-    #                 self.root = None
-    #                 return temp
-    #             Node = temp.right
-    #             while temp.left:
-    #                 Node = temp.left
-    #             self.key = self.root.value
-    #             temp.right = temp.right.del(value)
-    #             return temp.value`
+    def dfs_postOrder(self):
+        results = []
 
+        def traverse(current_node):
+            if current_node.left is not None:
+                traverse(current_node.left)
+            if current_node.right is not None:
+                traverse(current_node.right)
+            results.append(current_node.value)
 
+        traverse(self.root)
+        return results
 
+    def dfs_inOrder(self):
+        results = []
 
-# deletion
-# inorder
-# postorder and level order
+        def traverse(current_node):
+            if current_node.left is not None:
+                traverse(current_node.left)
+            results.append(current_node.value)
+            if current_node.right is not None:
+                traverse(current_node.right)
 
-
-
-
+        traverse(self.root)
+        return results
 
 
 my_tree = BinarySearchTree()
@@ -111,11 +103,8 @@ my_tree.insert(20)
 my_tree.insert(14)
 my_tree.insert(32)
 my_tree.insert(12)
-my_tree.insert(12)
 my_tree.insert(6)
 
-print(my_tree.bfs())
-
-
-
-
+# print(my_tree.bfs())
+# print(my_tree.dfs_pre_order()
+print(my_tree.dfs_inOrder())
