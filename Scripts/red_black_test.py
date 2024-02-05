@@ -10,7 +10,7 @@ class Node(object):
 class RedBlack(object):
     def __init__(self):
         self.nil = Node(None)
-        self.red = False
+        self.nil.red = False
         self.root = self.nil
 
     def min(self, root):
@@ -88,13 +88,13 @@ class RedBlack(object):
                     self.rotate_left(new_node.parent.parent)
 
     def delete(self, root, value):
-        if self.root.value == None:
+        if self.root.value is None:
             return
         current = root
-        while current.value != None:
+        while current.value is not None:
             if value == current.value:
                 # deletion cases
-                if (current.left.value == None) and (current.right.value == None):
+                if (current.left.value is None) and (current.right.value is None):
                     if current.red:
                         current.left = None
                         current.right = None
@@ -107,10 +107,10 @@ class RedBlack(object):
                         current.value = None
                         print(f"parent: {current.parent.value}")
                         self.fix_double_black(current)
-                elif current.left.value == None:
+                elif current.left.value is None:
                     current.value = current.right.value
                     self.delete(current.right, current.value)
-                elif current.right.value == None:
+                elif current.right.value is None:
                     current.value = current.left.value
                     self.delete(current.left, current.value)
                 else:
@@ -260,7 +260,9 @@ tree.insert(60)
 tree.insert(2)
 tree.insert(1)
 tree.insert(70)
-tree.delete(tree.root, 16)
+tree.delete(tree.root, 15)
+tree.delete(tree.root, 60)
+tree.delete(tree.root, 1)
 tree.preorder(tree.root)
 
 
