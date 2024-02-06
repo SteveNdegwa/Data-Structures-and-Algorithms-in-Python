@@ -99,7 +99,6 @@ class RedBlack(object):
                         current.left = None
                         current.right = None
                         current.value = None
-                        current.red = False
 
                     else:
                         print(f"delete: {current.value}")
@@ -265,4 +264,5 @@ tree.delete(tree.root, 15)
 tree.delete(tree.root, 60)
 tree.delete(tree.root, 1)
 tree.preorder(tree.root)
+
 
