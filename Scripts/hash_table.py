@@ -22,6 +22,14 @@ class HashTable(object):
                     return value[1]
         return None
 
+    def keys(self):
+        keys_list = []
+        for i in range(len(self.data_map)):
+            if self.data_map[i]:
+                for j in range(len(self.data_map[i])):
+                    keys_list.append(self.data_map[i][j][0])
+        return keys_list
+
     def print_table(self):
         for i, val in enumerate(self.data_map):
             print(i, ":", val)
@@ -29,5 +37,8 @@ class HashTable(object):
 
 hash_table = HashTable()
 hash_table.set_item("name", "steven")
+hash_table.set_item("age", "12")
+hash_table.set_item("position", "manager")
 hash_table.print_table()
 print(hash_table.get_item("name"))
+print(hash_table.keys())
