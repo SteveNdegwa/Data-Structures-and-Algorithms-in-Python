@@ -36,89 +36,50 @@
 #
 #
 # print(possible_combinations([5, 5, 5, 5, 5]))
-# from decimal import Decimal
-#
-# list1 = [
-#     ['04/05/2023', 'Cr', 'Transfer', 'MPESA', 'Cr', 'From', ':', '254725360891,', 'Sender', ':', 'JOSEPH', 'OMANDI,',
-#      'MPESA', 'TrnID', ':', 'RE48P9UNQ0', '(Trn', 'From', '1001', 'Br)', '04/05/2023', '0.00', '1,500.00',
-#      '1,500.00Cr'],
-#     ['17/05/2023', 'Cr', 'Cheque', 'POST', 'BANK', 'SACCO,', 'Drawee:POST', 'BANK', 'SACCO,', 'Bank:11,Clg', 'Br:45',
-#      '9048', '17/05/2023', '0.00', '9,280.00']
-# ]
-#
-# debit = Decimal()
-# credit = Decimal()
-#
-# for line in list1:
-#     try:
-#         debit = Decimal(str(line[-3]).replace(",", ""))
-#         credit = Decimal(str(line[-2]).replace(",", ""))
-#         description = " ".join(line[1:-4])
-#
-#     except:
-#         debit = Decimal(str(line[-2]).replace(",", ""))
-#         credit = Decimal(str(line[-1]).replace(",", ""))
-#         description = " ".join(line[1:-3])
-#     print(debit, credit)
-#     print(description)
-import re
 
-# word = "xyzXYZabcABC"
-# small = {}
-# capital = {}
-# count = 0
-#
-# for x, letter in enumerate(word):
-#     if letter.islower():
-#         small[letter] = x
-#     else:
-#         if capital.get(letter) is not None:
-#             pass
-#         else:
-#             capital[letter] = x
-#
-#
-# for item in small.items():
-#     if capital.get(item[0].upper()) is not None and item[1] < capital.get(item[0].upper()):
-#         count += 1
-#
-#
-# print(small)
-# print(capital)
-# print(count)
+def river_sizes(arr):
+    results = []
+    explored = [[False for x in range(len(arr[j]))] for j in range(len(arr))]
+    for x in range(len(arr)):
+        for y in range(len(arr[x])):
+            if not explored[x][y]:
+                get_river_sizes(arr, explored, x, y, results)
+    return results
 
 
-words_dictionary = {
-    "one": 1,
-    "two": 2,
+def get_river_sizes(arr, explored, row, col, results):
+    nodes_to_explore = [[row, col]]
+    current_size = 0
 
-}
-
-string = "two+two+two"
-# answer = int()
-# previous_operand = ""
-# for item in re.split(r'(\w+)', string):
-#     if words_dictionary.get(item) is not None:
-#         answer += int("%s%s" % (previous_operand, words_dictionary[item]))
-#         previous_operand = ""
-#     else:
-#         previous_operand = item
-# print(answer)
-
-
-operand= "+"
-sum=0
-
-
-for word in re.split(r'(\w+)', string):
-    if word in ("one", "two"):
-        val = 1 if word == "one" else 2
-        sum = sum + val if operand == "+" else sum - val
-    else:
-
-        if word == " " or word == "":
+    while len(nodes_to_explore):
+        row = nodes_to_explore[0][0]
+        col = nodes_to_explore[0][1]
+        nodes_to_explore.pop(0)
+        if explored[row][col]:
             continue
-        else:
-            operand=word
-print(sum)
+        if arr[row][col] == 0:
+            explored[row][col] = True
+            continue
+        explored[row][col] = True
+        current_size += 1
+        neighbors = get_neighbors(arr, row, col)
+        for neighbor in neighbors:
+            nodes_to_explore.append(neighbor)
+    if current_size > 0:
+        results.append(current_size)
 
+
+def get_neighbors(arr, row, col):
+    neighbors_list = []
+    if row != 0:
+        neighbors_list.append([row - 1, col])
+    if row != len(arr) - 1:
+        neighbors_list.append([row + 1, col])
+    if col != 0:
+        neighbors_list.append([row, col - 1])
+    if col != len(arr[row]) - 1:
+        neighbors_list.append([row, col + 1])
+    return neighbors_list
+
+
+print(river_sizes([[1, 0, 0, 1, 0], [1, 0, 1, 0, 0], [0, 0, 1, 0, 1], [1, 0, 1, 0, 1], [1, 0, 1, 1, 0]]))
